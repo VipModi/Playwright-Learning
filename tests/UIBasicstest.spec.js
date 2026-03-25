@@ -1,0 +1,30 @@
+const { test, expect } = require('@playwright/test');
+
+test.only('Browser Context Playwright Test', async ({ browser }) => {
+    const context = await browser.newContext();
+    const Page = await context.newPage();
+    const userName = Page.locator('#username');
+    const password = Page.locator('[type="password"]');
+    const signIn = Page.locator('[name="signin"]');
+    await Page.goto("https://rahulshettyacademy.com/loginpagepractise/");
+    console.log(await Page.title() + ' Vipul');
+    await userName.fill("rahulshetty");
+    await password.fill("Learning@830$3mK2");
+    await signIn.click();
+    console.log(await Page.locator("[style*='block']").textContent());
+    await expect(Page.locator("[style*='block']")).toContainText("Incorrect");
+    await userName.fill("");
+    await userName.fill("rahulshettyacademy");
+    await Page.locator('[name="signin"]').click();
+    await signIn.click();
+    console.log(await Page.locator('.card-title a').first().textContent());
+    console.log(await Page.locator('.card-body a').nth(3).textContent());
+});
+
+test('Page Playwright Test', async ({ page }) => {
+    //const context = await browser.newContext();
+    //const Page = await context.newPage();
+    await page.goto("https://www.google.com");
+    console.log(await page.title());
+    await expect(page).toHaveTitle("Google");
+});
