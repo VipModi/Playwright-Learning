@@ -6,6 +6,7 @@ test.only('Browser Context Playwright Test', async ({ browser }) => {
     const userName = Page.locator('#username');
     const password = Page.locator('[type="password"]');
     const signIn = Page.locator('[name="signin"]');
+    const cardTitle = Page.locator('.card-title a');
     await Page.goto("https://rahulshettyacademy.com/loginpagepractise/");
     console.log(await Page.title() + ' Vipul');
     await userName.fill("rahulshetty");
@@ -17,8 +18,11 @@ test.only('Browser Context Playwright Test', async ({ browser }) => {
     await userName.fill("rahulshettyacademy");
     await Page.locator('[name="signin"]').click();
     await signIn.click();
-    console.log(await Page.locator('.card-title a').first().textContent());
-    console.log(await Page.locator('.card-body a').nth(3).textContent());
+    console.log(await cardTitle.first().textContent());
+    console.log(await cardTitle.nth(3).textContent());
+    // allTextContents(); method is 
+    const allTitles = await cardTitle.allTextContents();
+    console.log(allTitles);
 });
 
 test('Page Playwright Test', async ({ page }) => {
