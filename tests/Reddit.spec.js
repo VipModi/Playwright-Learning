@@ -1,5 +1,5 @@
 const { test, expect } = require('@playwright/test');
-test.only('Reddit Login page Error Message Test & Logged In Test', async ({ browser }) => {
+test('Reddit Login page Error Message Test & Logged In Test', async ({ browser }) => {
     const contest = await browser.newContext();
     const page = await contest.newPage();
     await page.goto("https://www.reddit.com");
