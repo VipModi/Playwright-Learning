@@ -32,3 +32,23 @@ test('Page Playwright Test', async ({ page }) => {
     console.log(await page.title());
     await expect(page).toHaveTitle("Google");
 });
+
+test.only('Register on Practice automation', async ({ page }) => {
+    await page.goto("https://rahulshettyacademy.com/loginpagepractise/");
+    const userName = page.locator('#username');
+    const password = page.locator('[type="password"]');
+    const dropdown = page.locator('select.form-control');
+    await dropdown.selectOption("consult");
+    await expect(dropdown).toHaveValue("consult");
+    await page.locator(".radiotextsty").last().click();
+    await expect(page.locator("#okayBtn")).toBeVisible();
+    await expect(page.locator(".radiotextsty").last()).toBeChecked();
+    await page.locator("#okayBtn").click();
+    // await page.locator("#terms").click();
+    await page.locator("#terms").check();
+    console.log("Terms and condition checkbox is checked: ", await page.locator('#terms').isChecked());
+    await expect(page.locator("#terms")).toBeChecked();
+    await page.locator("#terms").uncheck();
+    console.log("Terms and condition checkbox is checked: ", await page.locator('#terms').isChecked());
+    await page.locator("#signInBtn").click();
+});
