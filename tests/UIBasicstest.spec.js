@@ -38,6 +38,7 @@ test.only('Register on Practice automation', async ({ page }) => {
     const userName = page.locator('#username');
     const password = page.locator('[type="password"]');
     const dropdown = page.locator('select.form-control');
+    const documentLink = page.locator("[href*='documents-request']");
     await dropdown.selectOption("consult");
     await expect(dropdown).toHaveValue("consult");
     await page.locator(".radiotextsty").last().click();
@@ -50,5 +51,8 @@ test.only('Register on Practice automation', async ({ page }) => {
     await expect(page.locator("#terms")).toBeChecked();
     await page.locator("#terms").uncheck();
     console.log("Terms and condition checkbox is checked: ", await page.locator('#terms').isChecked());
+    expect(await page.locator("#terms").isChecked()).toBeFalsy();
+    await expect(documentLink).toHaveAttribute("class", "blinkingText");
+    await page.pause();
     await page.locator("#signInBtn").click();
 });
