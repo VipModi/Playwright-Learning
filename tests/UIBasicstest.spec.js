@@ -33,7 +33,7 @@ test('Page Playwright Test', async ({ page }) => {
     await expect(page).toHaveTitle("Google");
 });
 
-test.only('Register on Practice automation', async ({ page }) => {
+test('Register on Practice automation', async ({ page }) => {
     await page.goto("https://rahulshettyacademy.com/loginpagepractise/");
     const userName = page.locator('#username');
     const password = page.locator('[type="password"]');
@@ -55,4 +55,25 @@ test.only('Register on Practice automation', async ({ page }) => {
     await expect(documentLink).toHaveAttribute("class", "blinkingText");
     await page.pause();
     await page.locator("#signInBtn").click();
+});
+
+test.only('Open another Tab with context', async ({ browser }) => {
+    const context = await browser.newContext();
+    const page = await context.newPage();
+    const userName = page.locator('#username');
+    const password = page.locator('[type="password"]');
+    await page.goto("https://rahulshettyacademy.com/loginpagepractise/");
+    const documentLink = page.locator("[href*='documents-request']");
+    await expect(documentLink).toHaveAttribute("class", "blinkingText");
+    const [newPage] = await Promise.all(
+        [
+            context.waitForEvent('page'),
+            documentLink.click()
+        ]
+    );
+    const testxt = await newPage.locator(".red").textContent();
+    const user = testxt.split("@")[1].split(" ")[0];
+    await userName.fill(user);
+    console.log(await userName.inputValue());
+    await page.pause();
 });
