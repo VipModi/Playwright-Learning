@@ -23,5 +23,18 @@ test('Register on Practice automation', async ({ page }) => {
     await page.locator("div li").first().waitFor();
     const bool = await page.locator(`h3:has-text('${productName}')`).isVisible();
     expect(bool).toBeTruthy();
+    await page.locator("text=Checkout").click();
+
+    await page.locator("input[placeholder='Select Country']").pressSequentially("ind", { delay: 100 });
+    const dropdown = page.locator(".ta-results")
+    await dropdown.waitFor();
+    const countryCount = await dropdown.locator(".ta-item").count();
+    for (let i = 0; i < countryCount; i++) {
+        const text = await dropdown.locator(".ta-item").nth(i).textContent();
+        if (text.trim() === "India") {
+            await text.nth(i).click();
+            break;
+        }
+    }
     await page.pause();
 });
