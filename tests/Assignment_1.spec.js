@@ -25,6 +25,8 @@ test('Register on Practice automation', async ({ page }) => {
     expect(bool).toBeTruthy();
     await page.locator("text=Checkout").click();
 
+    await page.locator("button[type='submit']").click();
+
     await page.locator("input[placeholder='Select Country']").pressSequentially("ind", { delay: 100 });
     const dropdown = page.locator(".ta-results")
     await dropdown.waitFor();
@@ -32,9 +34,25 @@ test('Register on Practice automation', async ({ page }) => {
     for (let i = 0; i < countryCount; i++) {
         const text = await dropdown.locator(".ta-item").nth(i).textContent();
         if (text.trim() === "India") {
-            await text.nth(i).click();
+            await dropdown.locator(".ta-item").nth(i).click();
             break;
         }
     }
+    await page.locator('.field [type="text"]').nth(1).fill(123 + "");
+    await page.locator('.field [type="text"]').nth(2).fill("Vipul Modi");
+    await page.locator("input[name='coupon']").fill("rahulshettyacademy");
+    await page.locator("button[type='submit']").click();
+    await expect(page.locator('text="* Coupon Applied"')).toBeVisible();
+    console.log(await page.locator('text="* Coupon Applied"').textContent());
+    await page.locator(".actions .btnn").click();
+    await expect(page.locator("text=Thankyou for the order.")).toBeVisible();
+    console.log(await page.locator("text=Thankyou for the order.").textContent());
+    const testOrder = await page.locator("label[class='ng-star-inserted']").textContent();
+    console.log(testOrder);
+    await page.locator("button[routerlink*='myorders']").click();
+    await page.locator(".container").first().waitFor();
+    const orderIds = await page.locator(".container").allTextContents();
+    console.log(orderIds);
     await page.pause();
+
 });
