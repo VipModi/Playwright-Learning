@@ -47,12 +47,21 @@ test('Register on Practice automation', async ({ page }) => {
     await page.locator(".actions .btnn").click();
     await expect(page.locator("text=Thankyou for the order.")).toBeVisible();
     console.log(await page.locator("text=Thankyou for the order.").textContent());
-    const testOrder = await page.locator("label[class='ng-star-inserted']").textContent();
-    console.log(testOrder);
+    let testOrder = await page.locator("label[class='ng-star-inserted']").textContent();
+    testOrder = testOrder.split(" ")[2];
     await page.locator("button[routerlink*='myorders']").click();
-    await page.locator(".container").first().waitFor();
-    const orderIds = await page.locator(".container").allTextContents();
-    console.log(orderIds);
-    await page.pause();
+    await page.locator('.table [scope="row"]').first().waitFor();
+    const orderIds = await page.locator('.table [scope="row"]').allTextContents();
+    for (let i = 0; i < orderIds.length; ++i) {
+        //if(orderIds[i].includes(testOrder)){
+        if (orderIds[i] === testOrder) {
+            await expect(page.locator(".table [scope='row']").nth(i)).toHaveText(testOrder);
+            await page.locator("[class='btn btn-primary']").nth(i).click();
+            break;
+        }
+    }
+    const OrderIDDetais = await page.locator(".col-text").textContent();
+    await expect(OrderIDDetais.includes(testOrder)).toBeTruthy();
+
 
 });

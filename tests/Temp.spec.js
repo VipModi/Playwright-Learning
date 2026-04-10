@@ -1,8 +1,6 @@
 const { test, expect } = require('@playwright/test');
 
 test.only('Instagram Login Test', async ({ page }) => {
-    await page.goto("https://instagram.com");
-    console.log(await page.title());
-    await page.pause();
-    console.log(await page.locator('[name="email"]').inputValue());
+    const temp = "| 69d92752f86ba51a6559c098 |";
+    console.log(temp.split(" ")[1]);
 });
