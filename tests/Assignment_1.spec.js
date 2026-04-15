@@ -24,9 +24,6 @@ test('Register on Practice automation', async ({ page }) => {
     const bool = await page.locator(`h3:has-text('${productName}')`).isVisible();
     expect(bool).toBeTruthy();
     await page.locator("text=Checkout").click();
-
-    await page.locator("button[type='submit']").click();
-
     await page.locator("input[placeholder='Select Country']").pressSequentially("ind", { delay: 100 });
     const dropdown = page.locator(".ta-results")
     await dropdown.waitFor();
